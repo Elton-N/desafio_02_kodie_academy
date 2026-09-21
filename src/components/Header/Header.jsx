@@ -1,14 +1,18 @@
+import React from 'react'
 import './Header.css'
+import eddieTrooper from '../assets/the_tropper.png'
 
-/**
- * Header
- * Exibe o título/marca da aplicação. Não recebe props — é um
- * componente puramente visual e estático.
- */
 function Header() {
   return (
     <header className="cabecalho">
-      <h1>Iron Maiden Explorer</h1>
+      <div className="cabecalho-conteudo">
+        <img 
+          src={eddieTrooper} 
+          alt="Eddie - The Trooper" 
+          className="cabecalho-logo"
+        />
+        <h1>IRON MAIDEN EXPLORER</h1>
+      </div>
       <p className="cabecalho-subtitulo">Explore a discografia da banda</p>
     </header>
   )
