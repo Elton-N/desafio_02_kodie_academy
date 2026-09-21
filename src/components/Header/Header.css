@@ -1,5 +1,8 @@
 /* ==========================================================
    HEADER
+   Fundo preto com uma faixa vermelha na base — remete à
+   identidade visual clássica de capas de disco de rock, sem
+   copiar nenhum logo específico.
 ========================================================== */
 .cabecalho {
   background-color: var(--color-bg);
@@ -8,44 +11,55 @@
   text-align: center;
 }
 
+.cabecalho h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 3rem); /* Tamanho fluido: se adapta à largura da tela sozinho */
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+
+/* ==========================================================
+   LOGOS (Eddie) AO LADO DO TÍTULO
+========================================================== */
 .cabecalho-conteudo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px; /* Aumentado o espaço entre as imagens e o título */
+  gap: 20px;
   flex-wrap: wrap;
 }
 
-/* Tamanho aumentado das duas imagens */
-.cabecalho-logo,
-.cabecalho-logo-direita {
-  height: 85px; /* Aumentado de 52px para 85px */
-  width: auto;
+/* 
+  Tamanho FIXO e IGUAL para as duas imagens, não importa o
+  tamanho/proporção original de cada arquivo — object-fit:
+  contain garante que a imagem inteira apareça, sem esticar
+  nem cortar, dentro dessa "moldura" quadrada.
+*/
+.cabecalho-logo {
+  width: 84px;
+  height: 84px;
   object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0; /* Nunca encolhe, mesmo se o título precisar de mais espaço */
 }
 
-/* Inverte a imagem da direita para manter a simetria de olhar para o título */
+/* 
+  A imagem da direita tem fundo branco no arquivo original.
+  mix-blend-mode: multiply "combina" a imagem com o fundo escuro
+  do header por trás dela — como o header é escuro, as áreas
+  brancas da imagem somem, sem precisar editar o arquivo PNG.
+*/
 .cabecalho-logo-direita {
-  transform: scaleX(-1);
-}
-
-/* Fonte Metal Mania aplicada ao título */
-.cabecalho h1,
-.cabecalho-titulo {
-  font-family: 'Metal Mania', cursive, sans-serif !important;
-  font-size: clamp(1.8rem, 5vw, 3.2rem) !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.05em !important;
-  color: var(--color-ink) !important;
-  text-transform: uppercase;
-  margin: 0;
+  mix-blend-mode: multiply;
 }
 
 .cabecalho-subtitulo {
   font-family: var(--font-body);
   color: var(--color-muted);
   font-size: 0.95rem;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 /* ==========================================================
@@ -53,11 +67,11 @@
 ========================================================== */
 @media (max-width: 480px) {
   .cabecalho {
-    padding: 24px 16px 16px;
+    padding: 24px 20px 20px;
   }
 
-  .cabecalho-logo,
-  .cabecalho-logo-direita {
-    height: 55px; /* Tamanho proporcional para telas de celular */
+  .cabecalho-logo {
+    width: 56px;
+    height: 56px;
   }
 }
