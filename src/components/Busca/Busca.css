@@ -1,20 +1,35 @@
+/* Container principal da busca */
 .busca {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px 32px 0;
+  padding: 16px 20px 0;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
+  height: auto !important; /* Força o container a ter apenas a altura necessária */
 }
 
-.busca-input {
+/* Caso a tua busca esteja dentro de um <form> */
+.busca form {
+  display: flex;
   flex: 1 1 260px;
+  height: 44px;
+}
+
+/* O campo de texto (<input>) */
+.busca-input {
+  width: 100%;
+  height: 44px !important; /* Define altura fixa de 44px */
+  max-height: 44px !important;
   background-color: var(--color-bg-soft);
   border: 1px solid var(--color-border);
   color: var(--color-ink);
-  padding: 14px 16px;
+  padding: 0 16px;
   border-radius: 4px;
   font-size: 0.95rem;
+  box-sizing: border-box;
+  display: block;
 }
 
 .busca-input:focus {
@@ -22,15 +37,21 @@
   outline-offset: 1px;
 }
 
+/* Botão de Favoritos */
 .botao-favoritos {
+  height: 44px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-bg-soft);
   border: 1px solid var(--color-border);
   color: var(--color-ink);
-  padding: 14px 18px;
+  padding: 0 18px;
   border-radius: 4px;
   font-size: 0.9rem;
   cursor: pointer;
   white-space: nowrap;
+  box-sizing: border-box;
   transition: border-color 0.15s ease;
 }
 
@@ -40,13 +61,18 @@
   outline: none;
 }
 
+/* Ajustes específicos para telemóvel */
 @media (max-width: 480px) {
   .busca {
     flex-direction: column;
-    padding: 20px 20px 0;
+    padding: 12px 16px 0;
+    gap: 10px;
   }
 
+  .busca form,
+  .busca-input,
   .botao-favoritos {
     width: 100%;
+    flex: none;
   }
 }
