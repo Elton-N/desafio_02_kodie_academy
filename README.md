@@ -1,16 +1,36 @@
-# React + Vite
+# Iron Maiden Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Problemática
+Como transformar a discografia de uma banda, disponível de forma "crua" em uma
+API pública, em uma aplicação que facilite a consulta e a exploração dessas
+músicas por parte do usuário?
 
-Currently, two official plugins are available:
+## Objetivo da aplicação
+Permitir que fãs da banda Iron Maiden explorem sua discografia de forma
+simples e visual, podendo buscar músicas pelo nome, filtrar álbuns e escutar *previews* das faixas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tecnologias utilizadas
+- React + Vite
+- Axios
+- CSS3 (sem estilos inline, um arquivo CSS por componente)
 
-## React Compiler
+## API utilizada
+[iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/)
+— endpoint `https://itunes.apple.com/search`, buscando `term=iron+maiden` e
+`entity=song`. Não exige chave de API nem autenticação.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Principais funcionalidades
+- Busca por nome da música (filtro em tempo real, conforme o usuário digita).
+- Player de áudio com *previews* de 30 segundos das músicas.
+- Sistema de Favoritos para salvar faixas preferidas.
+- Estado de carregamento enquanto os dados da API ainda não chegaram.
+- Mensagem de "nenhum resultado encontrado" quando a busca/filtro não encontra nenhuma música.
+- Layout responsivo (grid fluido) otimizado para celular, tablet e desktop.
 
-## Expanding the ESLint configuration
+## Como executar o projeto localmente
+```bash
+npm install
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Link da aplicação publicada
+> https://desafio-02-kodie-academy.vercel.app/.
