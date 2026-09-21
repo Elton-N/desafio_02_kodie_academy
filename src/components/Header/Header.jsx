@@ -1,6 +1,7 @@
 import React from 'react'
 import './Header.css'
-import eddieTrooper from '../assets/the_tropper.png'
+// Ajustado para subir duas pastas até chegar em src/assets
+import eddieTrooper from '../../assets/the_tropper.png'
 
 function Header() {
   return (
