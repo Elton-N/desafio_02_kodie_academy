@@ -12,23 +12,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 24px; /* Aumentado o espaço entre as imagens e o título */
   flex-wrap: wrap;
 }
 
-.cabecalho-logo {
-  height: 65px;
+/* Tamanho aumentado das duas imagens */
+.cabecalho-logo,
+.cabecalho-logo-direita {
+  height: 85px; /* Aumentado de 52px para 85px */
   width: auto;
   object-fit: contain;
 }
 
-/* Garante que a imagem do lado direito fica bem alinhada */
+/* Inverte a imagem da direita para manter a simetria de olhar para o título */
 .cabecalho-logo-direita {
-  height: 65px;
-  width: auto;
+  transform: scaleX(-1);
 }
 
-/* Fonte Metal Mania aplicada no título */
+/* Fonte Metal Mania aplicada ao título */
 .cabecalho h1,
 .cabecalho-titulo {
   font-family: 'Metal Mania', cursive, sans-serif !important;
@@ -44,18 +45,19 @@
   font-family: var(--font-body);
   color: var(--color-muted);
   font-size: 0.95rem;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 /* ==========================================================
-   RESPONSIVIDADE
+   RESPONSIVIDADE — TELAS PEQUENAS
 ========================================================== */
 @media (max-width: 480px) {
   .cabecalho {
     padding: 24px 16px 16px;
   }
 
-  .cabecalho-logo {
-    height: 45px;
+  .cabecalho-logo,
+  .cabecalho-logo-direita {
+    height: 55px; /* Tamanho proporcional para telas de celular */
   }
 }
