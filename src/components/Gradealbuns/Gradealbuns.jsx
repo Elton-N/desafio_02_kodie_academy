@@ -1,4 +1,4 @@
-import './GradeAlbuns.css'
+import './Gradealbuns.css'
 
 /**
  * GradeAlbuns
