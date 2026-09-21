@@ -1,0 +1,62 @@
+.grade-albuns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+/* 
+  O card é um <button> (não uma <div>), para que ele já seja
+  focável e clicável por teclado "de graça" — sem precisar
+  adicionar tabIndex nem onKeyDown manualmente.
+*/
+.album-card {
+  background-color: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.album-card:hover,
+.album-card:focus-visible {
+  border-color: var(--color-brand);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.album-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.album-info {
+  padding: 14px 16px 16px;
+}
+
+.album-nome {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.album-detalhes {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .grade-albuns {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

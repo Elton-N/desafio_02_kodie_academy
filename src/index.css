@@ -1,0 +1,53 @@
+/* ==========================================================
+   FONTES (Google Fonts)
+   Oswald: fonte condensada e forte, com cara de pôster de show
+   — usada nos títulos e na marca.
+   Inter: fonte de leitura, usada em textos e legendas.
+========================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ==========================================================
+   VARIÁVEIS DE COR E TIPOGRAFIA (design tokens)
+   Centralizadas aqui para que Header, Busca, Main e Footer
+   usem sempre as mesmas cores/fontes.
+========================================================== */
+:root {
+  --color-bg: #0b0b0d;          /* Fundo geral: preto quase puro */
+  --color-bg-soft: #1a1a1e;     /* Fundo dos cards */
+  --color-ink: #f1f1f0;         /* Texto principal (branco levemente quebrado) */
+  --color-muted: #9a9a9e;       /* Texto secundário */
+  --color-border: #2a2a2e;      /* Bordas discretas */
+  --color-brand: #c81e1e;       /* Vermelho, cor de destaque principal */
+  --color-accent: #d4af37;      /* Dourado metálico, usado em pequenos detalhes */
+
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ==========================================================
+   RESET BÁSICO
+========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
