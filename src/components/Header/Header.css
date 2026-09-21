@@ -1,3 +1,8 @@
+/* ==========================================================
+   HEADER
+   Fundo preto com uma faixa vermelha na base — remete à
+   identidade visual clássica de capas de disco de rock.
+========================================================== */
 .cabecalho {
   background-color: var(--color-bg);
   border-bottom: 4px solid var(--color-brand);
@@ -20,11 +25,12 @@
   object-fit: cover;
 }
 
+/* Fonte Metal Mania aplicada diretamente ao título */
 .cabecalho h1 {
-  font-family: var(--font-display);
+  font-family: 'Metal Mania', cursive, sans-serif !important;
   font-size: clamp(1.8rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  letter-spacing: 0.05em;
   color: var(--color-ink);
   text-transform: uppercase;
   margin: 0;
@@ -37,6 +43,9 @@
   margin-top: 8px;
 }
 
+/* ==========================================================
+   RESPONSIVIDADE — TELAS PEQUENAS
+========================================================== */
 @media (max-width: 480px) {
   .cabecalho {
     padding: 24px 20px 20px;
