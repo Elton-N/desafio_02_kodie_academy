@@ -1,10 +1,29 @@
-.footer {
-  width: 100%;
-  padding: 32px 16px;
-  margin-top: 40px; /* Cria um espaço entre os cards e a linha */
-  text-align: center;
-  background-color: var(--color-bg-soft); /* ou a cor de fundo padrão */
-  
-  /* Linha vermelha no topo do rodapé */
-  border-top: 2px solid var(--color-brand);
+footer.rodape,
+.rodape {
+  width: 100% !important;
+  margin-top: 48px !important;
+  padding: 32px 16px 24px !important;
+  text-align: center !important;
+  border-top: 2px solid #e50914 !important; /* Linha vermelha no topo do rodapé */
+  box-sizing: border-box !important;
+}
+
+.rodape p {
+  margin: 0 0 8px !important;
+  font-size: 0.85rem !important;
+  color: #cccccc !important;
+  line-height: 1.5 !important;
+}
+
+.rodape p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.rodape strong {
+  color: #ffffff !important;
+}
+
+.rodape small {
+  font-size: 0.75rem !important;
+  opacity: 0.7 !important;
 }
