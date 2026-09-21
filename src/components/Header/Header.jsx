@@ -1,18 +1,23 @@
 import React from 'react'
 import './Header.css'
-// Ajustado para subir duas pastas até chegar em src/assets
-import eddieTrooper from '../../assets/the_tropper.png'
+import eddieTrooperEsquerda from '../../assets/the_tropper.png'
+import eddieTrooperDireita from '../../assets/eddie-trooper_02.png'
 
 function Header() {
   return (
     <header className="cabecalho">
       <div className="cabecalho-conteudo">
         <img 
-          src={eddieTrooper} 
-          alt="Eddie - The Trooper" 
+          src={eddieTrooperEsquerda} 
+          alt="Eddie - The Trooper Esquerda" 
           className="cabecalho-logo"
         />
-        <h1>IRON MAIDEN EXPLORER</h1>
+        <h1 className="cabecalho-titulo">IRON MAIDEN EXPLORER</h1>
+        <img 
+          src={eddieTrooperDireita} 
+          alt="Eddie - The Trooper Direita" 
+          className="cabecalho-logo cabecalho-logo-direita"
+        />
       </div>
       <p className="cabecalho-subtitulo">Explore a discografia da banda</p>
     </header>
