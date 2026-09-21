@@ -106,6 +106,35 @@ function Main({
         <>
           <h2 className="titulo-secao">Álbuns</h2>
           <GradeAlbuns albuns={albuns} aoSelecionarAlbum={aoSelecionarAlbum} />
+
+          {/* 
+            Faixa de estatísticas do acervo, logo depois do grid.
+            Além de preencher o espaço vazio da última fileira,
+            reforça a ideia de "painel" com um resumo dos dados.
+          */}
+          <div className="estatisticas">
+            <div className="estatistica-item">
+              <span className="estatistica-numero">{albuns.length}</span>
+              <span className="estatistica-rotulo">Álbuns</span>
+            </div>
+            <div className="estatistica-item">
+              <span className="estatistica-numero">
+                {albuns.reduce((total, album) => total + album.quantidadeFaixas, 0)}
+              </span>
+              <span className="estatistica-rotulo">Faixas</span>
+            </div>
+            <div className="estatistica-item">
+              <span className="estatistica-numero">
+                {Math.min(...albuns.map((a) => Number(a.ano)))}–
+                {Math.max(...albuns.map((a) => Number(a.ano)))}
+              </span>
+              <span className="estatistica-rotulo">Período</span>
+            </div>
+            <div className="estatistica-item">
+              <span className="estatistica-numero">{favoritos.length}</span>
+              <span className="estatistica-rotulo">Favoritos</span>
+            </div>
+          </div>
         </>
       )}
     </main>
