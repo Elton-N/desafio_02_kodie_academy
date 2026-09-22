@@ -23,6 +23,14 @@ function Main({
   aoVoltar,
   aoFecharFavoritos,
 }) {
+  // Função para rolar a página até o topo de forma suave
+  const rolarParaOTopo = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
   if (carregando) {
     return (
       <main className="secao-principal">
@@ -137,6 +145,16 @@ function Main({
           </div>
         </>
       )}
+
+      {/* Botão flutuante para voltar ao topo */}
+      <button
+        className="botao-topo"
+        onClick={rolarParaOTopo}
+        aria-label="Voltar ao topo"
+        title="Voltar ao topo"
+      >
+        ↑
+      </button>
     </main>
   )
 }

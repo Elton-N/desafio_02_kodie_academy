@@ -129,3 +129,41 @@
   letter-spacing: 0.04em;
   margin-top: 4px;
 }
+
+/* ==========================================================
+   BOTÃO FLUTUANTE PARA VOLTAR AO TOPO
+========================================================== */
+.botao-topo {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-brand);
+  color: #ffffff;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao-topo:hover {
+  transform: translateY(-4px);
+  background-color: var(--color-accent);
+}
+
+@media (max-width: 480px) {
+  .botao-topo {
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
+}
