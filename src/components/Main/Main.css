@@ -38,39 +38,47 @@
 }
 
 /* ==========================================================
-   PÁGINA DE DETALHES DO ÁLBUM
-   Capa grande ao lado do nome/ano, antes da lista de faixas.
+   PÁGINA DE DETALHES DO ÁLBUM (Padronizada e Simétrica)
 ========================================================== */
 .detalhe-album {
   display: flex;
-  align-items: center;
-  gap: 24px;
+  align-items: center; /* Centraliza a capa e os dados na vertical */
+  gap: 28px;
   margin-bottom: 32px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Mantém lado a lado no desktop */
 }
 
 .detalhe-album-capa {
   width: 180px;
   height: 180px;
+  flex-shrink: 0; /* Impede a capa de encolher com títulos longos */
   object-fit: cover;
   border-radius: 6px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+.detalhe-album > div {
+  flex: 1;
+  min-width: 0; /* Permite que o texto quebre linhas corretamente sem estourar a tela */
+}
+
 .detalhe-album-titulo {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem); /* Fonte responsiva que se adapta ao tamanho do nome */
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  line-height: 1.25;
+  margin: 0;
+  word-wrap: break-word;
 }
 
 .detalhe-album-meta {
   color: var(--color-muted);
   font-size: 0.95rem;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .secao-principal {
     padding: 20px 20px 48px;
   }
@@ -93,7 +101,6 @@
 
 /* ==========================================================
    FAIXA DE ESTATÍSTICAS
-   Aparece depois do grid de álbuns, na tela inicial.
 ========================================================== */
 .estatisticas {
   display: flex;
@@ -131,7 +138,7 @@
 }
 
 /* ==========================================================
-   BOTÃO FLUTUANTE PARA VOLTAR AO TOPO
+   BOTÃO FLUTUANTE DE NAVEGAÇÃO
 ========================================================== */
 .botao-topo {
   position: fixed;
