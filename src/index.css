@@ -5,7 +5,7 @@
    Inter: fonte de leitura, usada em textos e legendas.
 ========================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
 /* ==========================================================
    VARIÁVEIS DE COR E TIPOGRAFIA (design tokens)
    Centralizadas aqui para que Header, Busca, Main e Footer
