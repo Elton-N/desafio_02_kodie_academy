@@ -155,6 +155,9 @@ function App() {
   // Restaura a exibição da lista de álbuns e volta para o local ou card específico
   function voltarParaAlbuns() {
     const idUltimoAlbum = albumSelecionadoId
+    
+    // Limpa tanto o termo de busca quanto o álbum selecionado
+    setTextoBusca('')
     setAlbumSelecionadoId(null)
 
     setTimeout(() => {
@@ -164,9 +167,9 @@ function App() {
       if (elementoAlbum) {
         elementoAlbum.scrollIntoView({ behavior: 'smooth', block: 'center' })
       } else {
-        // 2. Se não encontrar o elemento por ID, usa a posição em pixels salva
+        // 2. Se veio da busca ou não encontrar o elemento por ID, usa a posição salva ou vai para o topo
         window.scrollTo({
-          top: posicaoScrollSalva,
+          top: posicaoScrollSalva || 0,
           behavior: 'smooth',
         })
       }
