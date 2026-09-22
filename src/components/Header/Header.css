@@ -1,8 +1,6 @@
 /* ==========================================================
    HEADER
-   Fundo preto com uma faixa vermelha na base — remete à
-   identidade visual clássica de capas de disco de rock, sem
-   copiar nenhum logo específico.
+   Fundo preto com uma faixa vermelha na base.
 ========================================================== */
 .cabecalho {
   background-color: var(--color-bg);
@@ -11,7 +9,7 @@
   text-align: center;
 }
 
-/* Fonte Metal Mania aplicada no lugar da var(--font-display) */
+/* Fonte Metal Mania aplicada no título */
 .cabecalho h1,
 .cabecalho-titulo {
   font-family: 'Metal Mania', cursive, sans-serif !important;
@@ -30,30 +28,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
-/* 
-  Tamanho FIXO e IGUAL para as duas imagens, não importa o
-  tamanho/proporção original de cada arquivo — object-fit:
-  contain garante que a imagem inteira apareça, sem esticar
-  nem cortar, dentro dessa "moldura" quadrada.
-
-  O fundo branco de uma delas vira um "selo" intencional: em vez
-  de tentar escondê-lo (o que lava as cores da imagem), a gente
-  assume ele como moldura, deixando os dois lados com a MESMA
-  moldura — fica parecendo uma escolha de design, não um erro.
-*/
+/* Tamanho AUMENTADO para 120px */
 .cabecalho-logo {
-  width: 84px;
-  height: 84px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   border-radius: 8px;
   background-color: #f1f1f0;
   padding: 6px;
   border: 2px solid var(--color-brand);
-  flex-shrink: 0; /* Nunca encolhe, mesmo se o título precisar de mais espaço */
+  flex-shrink: 0;
 }
 
 .cabecalho-subtitulo {
@@ -72,7 +60,7 @@
   }
 
   .cabecalho-logo {
-    width: 56px;
-    height: 56px;
+    width: 70px;
+    height: 70px;
   }
 }
