@@ -1,15 +1,14 @@
 .grade-albuns {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os cartões no meio da tela */
   gap: 24px;
 }
 
-/* 
-  O card é um <button> (não uma <div>), para que ele já seja
-  focável e clicável por teclado "de graça" — sem precisar
-  adicionar tabIndex nem onKeyDown manualmente.
-*/
+/* Define a largura ideal para cada card no Flexbox */
 .album-card {
+  flex: 1 1 200px; /* Cresce e encolhe a partir de 200px */
+  max-width: 240px; /* Evita que um card sozinho fique gigante na tela */
   background-color: var(--color-bg-soft);
   border: 1px solid var(--color-border);
   border-radius: 4px;
