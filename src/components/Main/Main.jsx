@@ -34,10 +34,14 @@ function Main({
       const fimAbsoluto =
         window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 20
 
-      if (fimAbsoluto) {
-        setDirecao('cima') // Quando chega ao fim da página, força a direção para SUBIR
+      // Verifica se a página é longa o suficiente para exigir rolagem
+      const temRolagem = document.documentElement.scrollHeight > window.innerHeight + 50
+
+      // Só aponta para cima se realmente estiver no fim, tiver rolagem e NÃO estiver no topo
+      if (fimAbsoluto && temRolagem && !topoAbsoluto) {
+        setDirecao('cima')
       } else if (topoAbsoluto) {
-        setDirecao('baixo') // Quando chega ao topo, força a direção para DESCER
+        setDirecao('baixo') // No topo, sempre garante a seta para baixo
       }
     }
 
