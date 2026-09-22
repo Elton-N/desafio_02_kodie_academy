@@ -69,15 +69,29 @@ function Main({
     <main className="secao-principal">
       {modo === 'busca' && (
         <>
+          {/* Botão no topo da busca */}
+          <button className="botao-voltar" onClick={aoVoltar}>
+            ← Voltar aos álbuns
+          </button>
+
           <h2 className="titulo-secao">Resultado da busca</h2>
+
           {musicas.length === 0 ? (
             <p className="mensagem-status">Nenhuma música encontrada.</p>
           ) : (
-            <GradeMusicas
-              musicas={musicas}
-              favoritos={favoritos}
-              aoAlternarFavorito={aoAlternarFavorito}
-            />
+            <>
+              <GradeMusicas
+                musicas={musicas}
+                favoritos={favoritos}
+                aoAlternarFavorito={aoAlternarFavorito}
+              />
+              {/* Botão no final dos resultados da busca */}
+              <div style={{ marginTop: '30px', marginBottom: '10px' }}>
+                <button className="botao-voltar" onClick={aoVoltar}>
+                  ← Voltar aos álbuns
+                </button>
+              </div>
+            </>
           )}
         </>
       )}
@@ -109,7 +123,7 @@ function Main({
             aoAlternarFavorito={aoAlternarFavorito}
           />
 
-          {/* NOVO: Botão no final da lista de músicas do álbum */}
+          {/* Botão no final da lista de músicas do álbum */}
           <div style={{ marginTop: '30px', marginBottom: '10px' }}>
             <button className="botao-voltar" onClick={aoVoltar}>
               ← Voltar aos álbuns
@@ -136,7 +150,7 @@ function Main({
                 favoritos={favoritos}
                 aoAlternarFavorito={aoAlternarFavorito}
               />
-              {/* NOVO: Botão no final da tela de favoritos */}
+              {/* Botão no final da tela de favoritos */}
               <div style={{ marginTop: '30px', marginBottom: '10px' }}>
                 <button className="botao-voltar" onClick={aoFecharFavoritos}>
                   ← Voltar aos álbuns
