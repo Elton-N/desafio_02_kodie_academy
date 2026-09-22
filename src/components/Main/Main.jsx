@@ -108,6 +108,13 @@ function Main({
             favoritos={favoritos}
             aoAlternarFavorito={aoAlternarFavorito}
           />
+
+          {/* NOVO: Botão no final da lista de músicas do álbum */}
+          <div style={{ marginTop: '30px', marginBottom: '10px' }}>
+            <button className="botao-voltar" onClick={aoVoltar}>
+              ← Voltar aos álbuns
+            </button>
+          </div>
         </>
       )}
 
@@ -123,11 +130,19 @@ function Main({
               coração ♡ de uma música para adicioná-la aqui.
             </p>
           ) : (
-            <GradeMusicas
-              musicas={musicas}
-              favoritos={favoritos}
-              aoAlternarFavorito={aoAlternarFavorito}
-            />
+            <>
+              <GradeMusicas
+                musicas={musicas}
+                favoritos={favoritos}
+                aoAlternarFavorito={aoAlternarFavorito}
+              />
+              {/* NOVO: Botão no final da tela de favoritos */}
+              <div style={{ marginTop: '30px', marginBottom: '10px' }}>
+                <button className="botao-voltar" onClick={aoFecharFavoritos}>
+                  ← Voltar aos álbuns
+                </button>
+              </div>
+            </>
           )}
         </>
       )}
