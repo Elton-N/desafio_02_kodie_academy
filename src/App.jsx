@@ -20,7 +20,7 @@ function App() {
   const [resultadosBusca, setResultadosBusca] = useState([])
   const [carregandoBusca, setCarregandoBusca] = useState(false)
 
-  // Estado para guardar a posição da rolagem vertical antes de entrar no álbum
+  // Armazena a posição da rolagem vertical antes de entrar em um álbum
   const [posicaoScrollSalva, setPosicaoScrollSalva] = useState(0)
 
   // Ver a seção de favoritos (ativada pelo botão ao lado da busca).
@@ -139,23 +139,38 @@ function App() {
     return () => clearTimeout(temporizador)
   }, [textoBusca])
 
-  // Guarda a posição do scroll ao selecionar o álbum e rola para o topo
+  // Salva a posição exata da tela ANTES de mudar de página e rolar para o topo
   function selecionarAlbum(id) {
-    setPosicaoScrollSalva(window.scrollY)
+    const posicaoAtual = window.scrollY || document.documentElement.scrollTop
+    setPosicaoScrollSalva(posicaoAtual)
     setVerFavoritos(false)
     setAlbumSelecionadoId(id)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    // Rola para o topo com um pequeno atraso para não atrapalhar o salvamento da posição
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 10)
   }
 
-  // Restaura a posição do scroll salva ao clicar em voltar
+  // Restaura a exibição da lista de álbuns e volta para o local ou card específico
   function voltarParaAlbuns() {
+    const idUltimoAlbum = albumSelecionadoId
     setAlbumSelecionadoId(null)
+
     setTimeout(() => {
-      window.scrollTo({
-        top: posicaoScrollSalva,
-        behavior: 'smooth',
-      })
-    }, 50)
+      // 1. Tenta focar diretamente no card do álbum retornado via ID
+      const elementoAlbum = document.getElementById(`album-${idUltimoAlbum}`)
+      
+      if (elementoAlbum) {
+        elementoAlbum.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      } else {
+        // 2. Se não encontrar o elemento por ID, usa a posição em pixels salva
+        window.scrollTo({
+          top: posicaoScrollSalva,
+          behavior: 'smooth',
+        })
+      }
+    }, 80)
   }
 
   function mudarTextoBusca(texto) {

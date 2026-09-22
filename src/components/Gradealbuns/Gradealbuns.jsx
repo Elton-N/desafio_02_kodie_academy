@@ -13,6 +13,7 @@ function GradeAlbuns({ albuns, aoSelecionarAlbum }) {
       {albuns.map((album) => (
         <button
           key={album.id}
+          id={`album-${album.id}`} /* <--- ADICIONADO: ID único usado para a rolagem automática ao voltar */
           className="album-card"
           onClick={() => aoSelecionarAlbum(album.id)}
           // aria-label mais descritivo que o texto visível, já que o
