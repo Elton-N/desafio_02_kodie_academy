@@ -22,6 +22,11 @@ function Main({
   // Controla a direção atual da navegação: 'baixo' ou 'cima'
   const [direcao, setDirecao] = useState('baixo')
 
+  // Redefine a seta para 'baixo' sempre que mudar de vista ou de álbum
+  useEffect(() => {
+    setDirecao('baixo')
+  }, [modo, albumAtual])
+
   // Atualiza a direção automaticamente nos limites da página
   useEffect(() => {
     const monitorarLimites = () => {
