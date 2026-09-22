@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import './Main.css'
 import GradeAlbuns from '../Gradealbuns/Gradealbuns.jsx'
 import GradeMusicas from '../Grademusicas/Grademusicas.jsx'
@@ -23,12 +24,41 @@ function Main({
   aoVoltar,
   aoFecharFavoritos,
 }) {
-  // Função para rolar a página até o topo de forma suave
-  const rolarParaOTopo = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
+  const [noFinal, setNoFinal] = useState(false)
+
+  // Monitora se o usuário chegou perto do fim da página
+  useEffect(() => {
+    const monitorarRolagem = () => {
+      const limiteInferior = document.documentElement.scrollHeight - window.innerHeight - 150
+      if (window.scrollY >= limiteInferior) {
+        setNoFinal(true) // Chegou no fim -> botão muda para SUBIR (↑)
+      } else {
+        setNoFinal(false) // Ainda há conteúdo -> botão continua DESCENDO (↓)
+      }
+    }
+
+    window.addEventListener('scroll', monitorarRolagem)
+    return () => window.removeEventListener('scroll', monitorarRolagem)
+  }, [])
+
+  // Função que rola por "fileira/etapa"
+  const navegarPorFileira = () => {
+    // Altura aproximada de uma fileira (card + gap)
+    const AlturaFileira = 380
+
+    if (noFinal) {
+      // Se estiver no fim, rola 1 fileira para cima
+      window.scrollBy({
+        top: -AlturaFileira,
+        behavior: 'smooth',
+      })
+    } else {
+      // Caso contrário, avança 1 fileira para baixo
+      window.scrollBy({
+        top: AlturaFileira,
+        behavior: 'smooth',
+      })
+    }
   }
 
   if (carregando) {
@@ -62,10 +92,6 @@ function Main({
             ← Voltar aos álbuns
           </button>
 
-          {/* 
-            PÁGINA DE DETALHES: capa grande + nome + ano do álbum
-            em destaque, antes da lista de faixas.
-          */}
           <div className="detalhe-album">
             <img
               className="detalhe-album-capa"
@@ -115,11 +141,6 @@ function Main({
           <h2 className="titulo-secao">Álbuns</h2>
           <GradeAlbuns albuns={albuns} aoSelecionarAlbum={aoSelecionarAlbum} />
 
-          {/* 
-            Faixa de estatísticas do acervo, logo depois do grid.
-            Além de preencher o espaço vazio da última fileira,
-            reforça a ideia de "painel" com um resumo dos dados.
-          */}
           <div className="estatisticas">
             <div className="estatistica-item">
               <span className="estatistica-numero">{albuns.length}</span>
@@ -146,14 +167,14 @@ function Main({
         </>
       )}
 
-      {/* Botão flutuante para voltar ao topo */}
+      {/* Botão de navegação por fileiras */}
       <button
         className="botao-topo"
-        onClick={rolarParaOTopo}
-        aria-label="Voltar ao topo"
-        title="Voltar ao topo"
+        onClick={navegarPorFileira}
+        aria-label={noFinal ? "Subir uma fileira" : "Descer uma fileira"}
+        title={noFinal ? "Subir uma fileira" : "Descer uma fileira"}
       >
-        ↑
+        {noFinal ? '↑' : '↓'}
       </button>
     </main>
   )
