@@ -3,11 +3,6 @@ import './Main.css'
 import GradeAlbuns from '../Gradealbuns/Gradealbuns.jsx'
 import GradeMusicas from '../Grademusicas/Grademusicas.jsx'
 
-/**
- * A API devolve a capa em baixa resolução (100x100). Trocando esse
- * trecho na própria URL da imagem, conseguimos pedir uma versão
- * bem maior (600x600) — sem precisar de uma segunda requisição.
- */
 function obterCapaGrande(url) {
   return url.replace('100x100', '600x600')
 }
@@ -24,38 +19,39 @@ function Main({
   aoVoltar,
   aoFecharFavoritos,
 }) {
-  const [noFinal, setNoFinal] = useState(false)
+  // Controla a direção atual da navegação: 'baixo' ou 'cima'
+  const [direcao, setDirecao] = useState('baixo')
 
-  // Monitora se o usuário chegou perto do fim da página
+  // Atualiza a direção automaticamente nos limites da página
   useEffect(() => {
-    const monitorarRolagem = () => {
-      const limiteInferior = document.documentElement.scrollHeight - window.innerHeight - 150
-      if (window.scrollY >= limiteInferior) {
-        setNoFinal(true) // Chegou no fim -> botão muda para SUBIR (↑)
-      } else {
-        setNoFinal(false) // Ainda há conteúdo -> botão continua DESCENDO (↓)
+    const monitorarLimites = () => {
+      const topoAbsoluto = window.scrollY <= 10
+      const fimAbsoluto =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 20
+
+      if (fimAbsoluto) {
+        setDirecao('cima') // Quando chega ao fim da página, força a direção para SUBIR
+      } else if (topoAbsoluto) {
+        setDirecao('baixo') // Quando chega ao topo, força a direção para DESCER
       }
     }
 
-    window.addEventListener('scroll', monitorarRolagem)
-    return () => window.removeEventListener('scroll', monitorarRolagem)
+    window.addEventListener('scroll', monitorarLimites)
+    return () => window.removeEventListener('scroll', monitorarLimites)
   }, [])
 
-  // Função que rola por "fileira/etapa"
+  // Função para navegar linha por linha mantendo o sentido
   const navegarPorFileira = () => {
-    // Altura aproximada de uma fileira (card + gap)
-    const AlturaFileira = 380
+    const alturaFileira = 380
 
-    if (noFinal) {
-      // Se estiver no fim, rola 1 fileira para cima
+    if (direcao === 'cima') {
       window.scrollBy({
-        top: -AlturaFileira,
+        top: -alturaFileira,
         behavior: 'smooth',
       })
     } else {
-      // Caso contrário, avança 1 fileira para baixo
       window.scrollBy({
-        top: AlturaFileira,
+        top: alturaFileira,
         behavior: 'smooth',
       })
     }
@@ -167,14 +163,14 @@ function Main({
         </>
       )}
 
-      {/* Botão de navegação por fileiras */}
+      {/* Botão com direção persistente */}
       <button
         className="botao-topo"
         onClick={navegarPorFileira}
-        aria-label={noFinal ? "Subir uma fileira" : "Descer uma fileira"}
-        title={noFinal ? "Subir uma fileira" : "Descer uma fileira"}
+        aria-label={direcao === 'cima' ? "Subir uma fileira" : "Descer uma fileira"}
+        title={direcao === 'cima' ? "Subir uma fileira" : "Descer uma fileira"}
       >
-        {noFinal ? '↑' : '↓'}
+        {direcao === 'cima' ? '↑' : '↓'}
       </button>
     </main>
   )
