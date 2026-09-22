@@ -5,9 +5,7 @@ import Busca from './components/Busca/Busca.jsx'
 import Main from './components/Main/Main.jsx'
 import Footer from './components/Footer/Footer.jsx'
 
-// Chave usada para guardar/ler os favoritos no localStorage do
-// navegador. Fica fora do componente por ser um valor fixo, que
-// nunca muda.
+// Chave usada para guardar/ler os favoritos no localStorage do navegador.
 const CHAVE_FAVORITOS = 'iron-maiden-explorer:favoritos'
 
 function App() {
@@ -22,13 +20,13 @@ function App() {
   const [resultadosBusca, setResultadosBusca] = useState([])
   const [carregandoBusca, setCarregandoBusca] = useState(false)
 
+  // Estado para guardar a posição da rolagem vertical antes de entrar no álbum
+  const [posicaoScrollSalva, setPosicaoScrollSalva] = useState(0)
+
   // Ver a seção de favoritos (ativada pelo botão ao lado da busca).
   const [verFavoritos, setVerFavoritos] = useState(false)
 
-  // Lista de músicas favoritas. A função dentro do useState só roda
-  // UMA VEZ (na primeira renderização), lendo o que já estava salvo
-  // no localStorage — é assim que os favoritos "sobrevivem" mesmo
-  // depois de fechar e abrir o navegador de novo.
+  // Lista de músicas favoritas carregada do localStorage.
   const [favoritos, setFavoritos] = useState(() => {
     try {
       const salvos = localStorage.getItem(CHAVE_FAVORITOS)
@@ -38,15 +36,12 @@ function App() {
     }
   })
 
-  // Sempre que `favoritos` mudar, salva a lista atualizada no
-  // localStorage — assim toda vez que o usuário clica no coração,
-  // a mudança já fica gravada automaticamente.
+  // Salva alterações nos favoritos no localStorage.
   useEffect(() => {
     localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify(favoritos))
   }, [favoritos])
 
-  // Adiciona ou remove uma música dos favoritos, dependendo se ela
-  // já estava lá ou não.
+  // Adiciona ou remove uma música dos favoritos.
   function alternarFavorito(musica) {
     setFavoritos((atual) => {
       const jaEhFavorita = atual.some((f) => f.trackId === musica.trackId)
@@ -76,9 +71,6 @@ function App() {
             quantidadeFaixas: album.trackCount,
           }))
 
-        // Mantém só a versão com mais faixas quando duas entradas
-        // diferentes têm o mesmo nome de álbum (edição padrão vs.
-        // edição com faixa bônus, por exemplo).
         const albunsPorNome = {}
         albunsFiltrados.forEach((album) => {
           const existente = albunsPorNome[album.nome]
@@ -97,8 +89,7 @@ function App() {
   }, [])
 
   // ==========================================================
-  // 2) Ao clicar em um álbum, busca a lista COMPLETA de faixas
-  //    daquele álbum específico (endpoint de "lookup" por ID).
+  // 2) Ao clicar em um álbum, busca as faixas daquele álbum.
   // ==========================================================
   useEffect(() => {
     if (albumSelecionadoId === null) return
@@ -148,12 +139,23 @@ function App() {
     return () => clearTimeout(temporizador)
   }, [textoBusca])
 
-  // Funções "wrapper": além de mudar o estado principal, cada uma
-  // também fecha a visão de favoritos, para não deixar duas telas
-  // "ativas" ao mesmo tempo de forma confusa.
+  // Guarda a posição do scroll ao selecionar o álbum e rola para o topo
   function selecionarAlbum(id) {
+    setPosicaoScrollSalva(window.scrollY)
     setVerFavoritos(false)
     setAlbumSelecionadoId(id)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Restaura a posição do scroll salva ao clicar em voltar
+  function voltarParaAlbuns() {
+    setAlbumSelecionadoId(null)
+    setTimeout(() => {
+      window.scrollTo({
+        top: posicaoScrollSalva,
+        behavior: 'smooth',
+      })
+    }, 50)
   }
 
   function mudarTextoBusca(texto) {
@@ -167,8 +169,7 @@ function App() {
     setVerFavoritos(true)
   }
 
-  // Decide o que mostrar, em ordem de prioridade:
-  // busca > detalhes do álbum > favoritos > grade de álbuns.
+  // Decide o que mostrar em ordem de prioridade.
   const buscaAtiva = textoBusca.trim() !== ''
 
   let modo = 'albuns'
@@ -211,7 +212,7 @@ function App() {
         favoritos={favoritos}
         aoAlternarFavorito={alternarFavorito}
         aoSelecionarAlbum={selecionarAlbum}
-        aoVoltar={() => setAlbumSelecionadoId(null)}
+        aoVoltar={voltarParaAlbuns}
         aoFecharFavoritos={() => setVerFavoritos(false)}
       />
 
