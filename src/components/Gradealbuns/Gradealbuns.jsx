@@ -1,37 +1,49 @@
-import './Gradealbuns.css'
+import CardMusica from '../CardMusica/CardMusica.jsx'
+import './DetalheAlbum.css' // ou o nome do seu CSS de detalhes
 
-/**
- * GradeAlbuns
- * Mostra um card por álbum. Ao clicar em um card, chama
- * `aoSelecionarAlbum(album.id)` — essa função vem do App (é o
- * setAlbumSelecionadoId) e é isso que faz a aplicação "entrar" no
- * álbum, trocando o que o Main renderiza.
- */
-function GradeAlbuns({ albuns, aoSelecionarAlbum }) {
+function DetalheAlbum({
+  album,
+  musicas,
+  aoVoltar,
+  favoritos,
+  aoAlternarFavorito,
+}) {
   return (
-    <div className="grade-albuns">
-      {albuns.map((album) => (
-        <button
-          key={album.id}
-          id={`album-${album.id}`} /* <--- ADICIONADO: ID único usado para a rolagem automática ao voltar */
-          className="album-card"
-          onClick={() => aoSelecionarAlbum(album.id)}
-          // aria-label mais descritivo que o texto visível, já que o
-          // botão inteiro é clicável (não só um link de texto).
-          aria-label={`Ver músicas do álbum ${album.nome}`}
-        >
-          <img src={album.capa} alt={`Capa do álbum ${album.nome}`} />
-          <div className="album-info">
-            <h2 className="album-nome">{album.nome}</h2>
-            <p className="album-detalhes">
-              {album.ano} · {album.quantidadeFaixas}{' '}
-              {album.quantidadeFaixas === 1 ? 'faixa' : 'faixas'}
-            </p>
-          </div>
+    <section className="detalhe-album">
+      {/* 1. Botão do topo */}
+      <button className="botao-voltar" onClick={aoVoltar}>
+        ← Voltar aos álbuns
+      </button>
+
+      {/* Cabeçalho do Álbum */}
+      <div className="cabecalho-album">
+        <img src={album.capa} alt={album.nome} />
+        <div>
+          <h2>{album.nome}</h2>
+          <p>{album.ano} · {album.quantidadeFaixas} faixas</p>
+        </div>
+      </div>
+
+      {/* Lista / Grid com todas as faixas */}
+      <div className="grid-musicas">
+        {musicas.map((musica) => (
+          <CardMusica
+            key={musica.trackId}
+            musica={musica}
+            favoritos={favoritos}
+            aoAlternarFavorito={aoAlternarFavorito}
+          />
+        ))}
+      </div>
+
+      {/* 2. BOTÃO INFERIOR: Adicionado no final para o usuário não precisar rolar até o topo */}
+      <div style={{ marginTop: '40px', marginBottom: '20px' }}>
+        <button className="botao-voltar" onClick={aoVoltar}>
+          ← Voltar aos álbuns
         </button>
-      ))}
-    </div>
+      </div>
+    </section>
   )
 }
 
-export default GradeAlbuns
+export default DetalheAlbum
