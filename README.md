@@ -53,7 +53,7 @@ Utilizei o Claude (Anthropic) como apoio durante todo o desenvolvimento, revisan
 
 ### Prompts Utilizados & Objetivos
 
-> **Prompt utilizado:** "Me ajudE com os códigos do header, main e footer e colocar o que tá faltando?"
+> **Prompt utilizado:** "Me ajude com os códigos do header, main e footer e colocar o que tá faltando?"
 * **Objetivo:** Gerar a estrutura inicial dos componentes React (Header, Busca, Main, Footer) e a lógica de consumo da API com Axios/useState/useEffect no App.jsx, para eu poder revisar e ajustar a partir de uma base funcional.
 
 > **Prompt utilizado:** "Eu pensei numa API com os álbuns e músicas do Iron Maiden, com busca, filtro etc. Eu queria todas as músicas e os respectivos álbuns, para o usuário percorrer dentro do álbum e escolher as músicas, ou buscar pelas músicas"
