@@ -3,32 +3,34 @@ import './Main.css'
 import GradeAlbuns from '../Gradealbuns/Gradealbuns.jsx'
 import GradeMusicas from '../Grademusicas/Grademusicas.jsx'
 
+// Substitui a resolução da imagem da capa da API do iTunes (100x100) para alta qualidade (600x600)
 function obterCapaGrande(url) {
   return url.replace('100x100', '600x600')
 }
 
 function Main({
-  modo,
-  carregando,
-  erro,
-  albuns,
-  musicas,
-  albumAtual,
-  favoritos,
-  aoAlternarFavorito,
-  aoSelecionarAlbum,
-  aoVoltar,
-  aoFecharFavoritos,
+  modo,               // Define qual visão renderizar: 'albuns', 'album', 'busca' ou 'favoritos'
+  carregando,         // Estado booleano de carregamento
+  erro,               // Mensagem de erro de conexão/API (se houver)
+  textoBusca,         // <--- Adicionado: Termo digitado pelo utilizador na caixa de busca
+  albuns,             // Lista com todos os álbuns
+  musicas,            // Lista de músicas a exibir (resultados da busca, faixas do álbum ou favoritos)
+  albumAtual,         // Dados do álbum selecionado atualmente
+  favoritos,          // Lista de músicas favoritadas
+  aoAlternarFavorito, // Função para adicionar/remover dos favoritos
+  aoSelecionarAlbum,  // Função ao clicar em um álbum
+  aoVoltar,           // Função para retornar à tela inicial de álbuns
+  aoFecharFavoritos,  // Função para fechar a tela de favoritos
 }) {
-  // Controla a direção atual da navegação: 'baixo' ou 'cima'
+  // Controla a direção atual do botão flutuante de navegação: 'baixo' ou 'cima'
   const [direcao, setDirecao] = useState('baixo')
 
-  // Redefine a seta para 'baixo' sempre que mudar de vista ou de álbum
+  // Redefine a seta para 'baixo' sempre que o utilizador muda de tela ou de álbum
   useEffect(() => {
     setDirecao('baixo')
   }, [modo, albumAtual])
 
-  // Atualiza a direção automaticamente nos limites da página
+  // Monitora a rolagem (scroll) para inverter a seta do botão flutuante no topo ou no fim da página
   useEffect(() => {
     const monitorarLimites = () => {
       const topoAbsoluto = window.scrollY <= 10
@@ -50,7 +52,7 @@ function Main({
     return () => window.removeEventListener('scroll', monitorarLimites)
   }, [])
 
-  // Função para navegar linha por linha mantendo o sentido
+  // Função para rolar a página em blocos/fileiras mantendo o sentido indicado pela seta
   const navegarPorFileira = () => {
     const alturaFileira = 380
 
@@ -67,7 +69,7 @@ function Main({
     }
   }
 
-  // 1. Prioridade: Exibe o estado de carregando
+  // 1. PRIORIDADE: Exibe indicação visual enquanto dados estão a ser procurados na API
   if (carregando) {
     return (
       <main className="secao-principal">
@@ -76,7 +78,7 @@ function Main({
     )
   }
 
-  // 2. Prioridade: Exibe o cartão de erro caso a requisição falhe
+  // 2. PRIORIDADE: Exibe alerta em vermelho caso ocorra falha de rede/API
   if (erro) {
     return (
       <main className="secao-principal">
@@ -96,6 +98,7 @@ function Main({
 
   return (
     <main className="secao-principal">
+      {/* 3. VISÃO DE BUSCA */}
       {modo === 'busca' && (
         <>
           {/* Botão no topo da busca */}
@@ -105,8 +108,11 @@ function Main({
 
           <h2 className="titulo-secao">Resultado da busca</h2>
 
+          {/* Renderização condicional: Mostra mensagem personalizada com o termo pesquisado se não houver resultados */}
           {musicas.length === 0 ? (
-            <p className="mensagem-status">Nenhuma música encontrada.</p>
+            <p className="mensagem-status">
+              Nenhum álbum ou música encontrado para "{textoBusca}". Tente pesquisar por outro termo!
+            </p>
           ) : (
             <>
               <GradeMusicas
@@ -125,6 +131,7 @@ function Main({
         </>
       )}
 
+      {/* 4. VISÃO DE DETALHES DO ÁLBUM */}
       {modo === 'album' && albumAtual && (
         <>
           <button className="botao-voltar" onClick={aoVoltar}>
@@ -161,6 +168,7 @@ function Main({
         </>
       )}
 
+      {/* 5. VISÃO DE FAVORITOS */}
       {modo === 'favoritos' && (
         <>
           <button className="botao-voltar" onClick={aoFecharFavoritos}>
@@ -190,11 +198,13 @@ function Main({
         </>
       )}
 
+      {/* 6. VISÃO INICIAL (GRADE DE ÁLBUNS E ESTATÍSTICAS) */}
       {modo === 'albuns' && (
         <>
           <h2 className="titulo-secao">Álbuns</h2>
           <GradeAlbuns albuns={albuns} aoSelecionarAlbum={aoSelecionarAlbum} />
 
+          {/* Bloco de estatísticas calculado dinamicamente a partir da lista de álbuns */}
           {albuns.length > 0 && (
             <div className="estatisticas">
               <div className="estatistica-item">
@@ -223,12 +233,12 @@ function Main({
         </>
       )}
 
-      {/* Botão com direção persistente */}
+      {/* Botão flutuante com seta adaptativa (sobe/desce) */}
       <button
         className="botao-topo"
         onClick={navegarPorFileira}
-        aria-label={direcao === 'cima' ? "Subir uma fileira" : "Descer uma fileira"}
-        title={direcao === 'cima' ? "Subir uma fileira" : "Descer uma fileira"}
+        aria-label={direcao === 'cima' ? 'Subir uma fileira' : 'Descer uma fileira'}
+        title={direcao === 'cima' ? 'Subir uma fileira' : 'Descer uma fileira'}
       >
         {direcao === 'cima' ? '↑' : '↓'}
       </button>
