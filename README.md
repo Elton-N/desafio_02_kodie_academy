@@ -99,6 +99,22 @@ A aplicação foi construída para lidar de forma graciosa com falhas de rede, d
 * **Cenário:** O utilizador apaga completamente o texto da caixa de pesquisa.
 * **Resultado:** O temporizador de 400ms do *debounce* limpa os resultados de busca e a aplicação retorna suavemente para a visualização principal da grade de álbuns e estatísticas.
 
+## 📝 Decisões Técnicas e Integração com a API
+
+* **Contagem de Faixas (`trackCount`):** O total de faixas exibido no cabeçalho do detalhe dos álbuns reflete o parâmetro original `trackCount` retornado pela API do iTunes. Em algumas coleções (como no álbum *The Book of Souls*), a Apple contabiliza conteúdos digitais extras ou vídeos de pré-venda (`trackCount: 12`), embora apenas as 11 faixas de áudio estejam disponíveis no catálogo para reprodução de prévia[cite: 12, 13]. A aplicação opta por manter a integridade do dado fornecido pela API[cite: 12, 13].
+* **Singles e Álbuns Separados:** A API do iTunes trata lançamentos individuais (singles) e álbuns completos como coleções distintas. Por isso, faixas promocionais como *Speed of Light - Single* são exibidas de forma independente na grade de álbuns.
+
+---
+
+## 🧪 Testes de Resiliência e Tratamento de Erros
+
+A aplicação foi projetada para garantir estabilidade e boa experiência de usuário mesmo em cenários imprevistos:
+
+1. **Busca sem Resultados:** Quando um termo digitado não possui correspondência no catálogo (ex: `samba`), a interface exibe uma mensagem amigável contextualizada orientando o usuário a tentar outra pesquisa.
+2. **Tratamento de Erro de Conexão (Offline):** Caso ocorra queda de internet ou falha de resposta da API durante uma busca, o bloco `.catch()` captura a exceção e apresenta um alerta em destaque sem travar a interface[cite: 5].
+3. **Proteção contra Dados Corrompidos no `localStorage`:** O gerenciamento do estado dos favoritos conta com tratamento `try...catch` no `JSON.parse()`. Se a chave salva no navegador for alterada manualmente por um valor inválido, a aplicação recupera o erro, redefine o estado para uma lista vazia `[]` e sobrescreve o dado corrompido em seguida.
+4. **Debounce e Limpeza de Entrada:** A caixa de pesquisa aguarda 400ms após o término da digitação para efetuar a requisição. Ao apagar todo o texto, a aplicação retorna automaticamente à visualização inicial da discografia completa.
+
 ## 👤 Autor
 
 **Elton do Nascimento**
