@@ -241,6 +241,7 @@ function App() {
         modo={modo}
         carregando={carregando}
         erro={erro}
+        textoBusca={textoBusca}
         albuns={albuns}
         musicas={musicasExibidas}
         albumAtual={albumAtual}
