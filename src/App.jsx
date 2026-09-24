@@ -20,6 +20,9 @@ function App() {
   const [resultadosBusca, setResultadosBusca] = useState([])
   const [carregandoBusca, setCarregandoBusca] = useState(false)
 
+  // Armazena mensagens de erro das requisições
+  const [erro, setErro] = useState(null)
+
   // Armazena a posição da rolagem vertical antes de entrar em um álbum
   const [posicaoScrollSalva, setPosicaoScrollSalva] = useState(0)
 
@@ -56,6 +59,7 @@ function App() {
   // 1) Carrega a lista de ÁLBUNS, uma única vez, ao montar o App.
   // ==========================================================
   useEffect(() => {
+    setErro(null)
     axios
       .get('https://itunes.apple.com/search', {
         params: { term: 'iron maiden', entity: 'album', limit: 200 },
@@ -86,6 +90,10 @@ function App() {
         setAlbuns(albunsOficiais)
         setCarregandoAlbuns(false)
       })
+      .catch(() => {
+        setErro('Erro ao carregar a lista de álbuns. Verifique a sua ligação à internet.')
+        setCarregandoAlbuns(false)
+      })
   }, [])
 
   // ==========================================================
@@ -94,6 +102,7 @@ function App() {
   useEffect(() => {
     if (albumSelecionadoId === null) return
 
+    setErro(null)
     setCarregandoMusicasAlbum(true)
     axios
       .get('https://itunes.apple.com/lookup', {
@@ -104,6 +113,10 @@ function App() {
           (item) => item.wrapperType === 'track',
         )
         setMusicasAlbum(faixas)
+        setCarregandoMusicasAlbum(false)
+      })
+      .catch(() => {
+        setErro('Não foi possível carregar as faixas deste álbum. Tente novamente.')
         setCarregandoMusicasAlbum(false)
       })
   }, [albumSelecionadoId])
@@ -117,6 +130,7 @@ function App() {
       return
     }
 
+    setErro(null)
     setCarregandoBusca(true)
     const temporizador = setTimeout(() => {
       axios
@@ -134,6 +148,10 @@ function App() {
           setResultadosBusca(somenteIronMaiden)
           setCarregandoBusca(false)
         })
+        .catch(() => {
+          setErro('Erro ao realizar a busca. Tente novamente.')
+          setCarregandoBusca(false)
+        })
     }, 400)
 
     return () => clearTimeout(temporizador)
@@ -146,28 +164,25 @@ function App() {
     setVerFavoritos(false)
     setAlbumSelecionadoId(id)
 
-    // Rola para o topo com um pequeno atraso para não atrapalhar o salvamento da posição
     setTimeout(() => {
       window.scrollTo(0, 0)
     }, 10)
   }
 
-  // Restaura a exibição da lista de álbuns e volta para o local ou card específico
+  // Restaura a exibição da lista de álbuns
   function voltarParaAlbuns() {
     const idUltimoAlbum = albumSelecionadoId
     
-    // Limpa tanto o termo de busca quanto o álbum selecionado
     setTextoBusca('')
     setAlbumSelecionadoId(null)
+    setErro(null)
 
     setTimeout(() => {
-      // 1. Tenta focar diretamente no card do álbum retornado via ID
       const elementoAlbum = document.getElementById(`album-${idUltimoAlbum}`)
       
       if (elementoAlbum) {
         elementoAlbum.scrollIntoView({ behavior: 'smooth', block: 'center' })
       } else {
-        // 2. Se veio da busca ou não encontrar o elemento por ID, usa a posição salva ou vai para o topo
         window.scrollTo({
           top: posicaoScrollSalva || 0,
           behavior: 'smooth',
@@ -185,6 +200,7 @@ function App() {
     setTextoBusca('')
     setAlbumSelecionadoId(null)
     setVerFavoritos(true)
+    setErro(null)
   }
 
   // Decide o que mostrar em ordem de prioridade.
@@ -224,6 +240,7 @@ function App() {
       <Main
         modo={modo}
         carregando={carregando}
+        erro={erro}
         albuns={albuns}
         musicas={musicasExibidas}
         albumAtual={albumAtual}

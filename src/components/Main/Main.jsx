@@ -10,6 +10,7 @@ function obterCapaGrande(url) {
 function Main({
   modo,
   carregando,
+  erro,
   albuns,
   musicas,
   albumAtual,
@@ -66,10 +67,29 @@ function Main({
     }
   }
 
+  // 1. Prioridade: Exibe o estado de carregando
   if (carregando) {
     return (
       <main className="secao-principal">
         <p className="mensagem-status">Carregando discografia...</p>
+      </main>
+    )
+  }
+
+  // 2. Prioridade: Exibe o cartão de erro caso a requisição falhe
+  if (erro) {
+    return (
+      <main className="secao-principal">
+        {modo !== 'albuns' && (
+          <button className="botao-voltar" onClick={aoVoltar}>
+            ← Voltar aos álbuns
+          </button>
+        )}
+        <div style={{ textAlign: 'center', margin: '40px 0', padding: '20px' }}>
+          <p className="mensagem-status" style={{ color: '#ff6b6b' }}>
+            ⚠️ {erro}
+          </p>
+        </div>
       </main>
     )
   }
@@ -175,29 +195,31 @@ function Main({
           <h2 className="titulo-secao">Álbuns</h2>
           <GradeAlbuns albuns={albuns} aoSelecionarAlbum={aoSelecionarAlbum} />
 
-          <div className="estatisticas">
-            <div className="estatistica-item">
-              <span className="estatistica-numero">{albuns.length}</span>
-              <span className="estatistica-rotulo">Álbuns</span>
+          {albuns.length > 0 && (
+            <div className="estatisticas">
+              <div className="estatistica-item">
+                <span className="estatistica-numero">{albuns.length}</span>
+                <span className="estatistica-rotulo">Álbuns</span>
+              </div>
+              <div className="estatistica-item">
+                <span className="estatistica-numero">
+                  {albuns.reduce((total, album) => total + album.quantidadeFaixas, 0)}
+                </span>
+                <span className="estatistica-rotulo">Faixas</span>
+              </div>
+              <div className="estatistica-item">
+                <span className="estatistica-numero">
+                  {Math.min(...albuns.map((a) => Number(a.ano)))}–
+                  {Math.max(...albuns.map((a) => Number(a.ano)))}
+                </span>
+                <span className="estatistica-rotulo">Período</span>
+              </div>
+              <div className="estatistica-item">
+                <span className="estatistica-numero">{favoritos.length}</span>
+                <span className="estatistica-rotulo">Favoritos</span>
+              </div>
             </div>
-            <div className="estatistica-item">
-              <span className="estatistica-numero">
-                {albuns.reduce((total, album) => total + album.quantidadeFaixas, 0)}
-              </span>
-              <span className="estatistica-rotulo">Faixas</span>
-            </div>
-            <div className="estatistica-item">
-              <span className="estatistica-numero">
-                {Math.min(...albuns.map((a) => Number(a.ano)))}–
-                {Math.max(...albuns.map((a) => Number(a.ano)))}
-              </span>
-              <span className="estatistica-rotulo">Período</span>
-            </div>
-            <div className="estatistica-item">
-              <span className="estatistica-numero">{favoritos.length}</span>
-              <span className="estatistica-rotulo">Favoritos</span>
-            </div>
-          </div>
+          )}
         </>
       )}
 
