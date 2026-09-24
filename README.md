@@ -76,6 +76,29 @@ Utilizei o Claude (Anthropic) como apoio durante todo o desenvolvimento, revisan
 
 ---
 
+## 🧪 Testes de Resiliência e Tratamento de Erros
+
+A aplicação foi construída para lidar de forma graciosa com falhas de rede, dados corrompidos e ausência de resultados.
+
+### 1. Teste de Busca sem Resultados
+* **Cenário:** O utilizador pesquisa por um termo inexistente no catálogo (ex: `funk carioca`).
+* **Comportamento:** A API responde com sucesso (`200 OK`), mas com um array vazio.
+* **Resultado:** O sistema exibe uma mensagem amigável informando que nada foi encontrado para o termo pesquisado, mantendo a navegação ativa.
+
+### 2. Teste de Falha de Ligação / Offline
+* **Cenário:** A conexão com a internet é interrompida ou a API do iTunes fica indisponível durante uma requisição.
+* **Como Simular:** No DevTools do navegador (`F12` > aba *Network*), altere a limitação para **Offline** e execute uma busca.
+* **Resultado:** O bloco `.catch()` captura a falha de rede e exibe um alerta destacado:
+  > ⚠️ *Erro ao realizar a busca. Tente novamente.*
+
+### 3. Teste de Tolerância a Dados Corrompidos (`localStorage`)
+* **Cenário:** O valor salvo na chave de favoritos no navegador é alterado para um JSON inválido.
+* **Resultado:** O bloco `try...catch` na inicialização do estado recupera a exceção e redefine a lista de favoritos para um array vazio `[]`, evitando o travamento da interface (*white screen of death*).
+
+### 4. Teste de Limpeza de Entrada (*Debounce*)
+* **Cenário:** O utilizador apaga completamente o texto da caixa de pesquisa.
+* **Resultado:** O temporizador de 400ms do *debounce* limpa os resultados de busca e a aplicação retorna suavemente para a visualização principal da grade de álbuns e estatísticas.
+
 ## 👤 Autor
 
 **Elton do Nascimento**
